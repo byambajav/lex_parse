@@ -1,0 +1,13 @@
+
+$ ocamllex my_lex.mll
+
+my_lex.ml というファイルができるので，
+
+(i) 方法1: emacs で開いて C-c C-b する， または，
+
+(ii) 方法2: 以下のようにコマンドラインから実行する
+
+$ ocaml -init my_lex.ml
+
+# test_lex "12 + 34"
+
