@@ -40,4 +40,15 @@ let parse_string s =
     raise exn
 ;;
 
-(* add your eval_expr and eval_string below *)
+
+open My_ast
+  
+let rec eval_expr e = (* e は式の構文木 *)
+  match e with
+    Num(x) -> x
+  | Plus(x, y) -> eval_expr x + eval_expr y
+;;
+
+let eval_string s = (* e は文字列 *)
+  eval_expr (parse_string s)
+;;

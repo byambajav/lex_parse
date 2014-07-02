@@ -3,9 +3,14 @@ open Calc_parse
 (* token -> string *)
 let string_of_token t =
   match t with
-    NUM(s) -> Printf.sprintf "NUM(%d)" s
+    NUM(s) -> Printf.sprintf "NUM(%f)" s
   | PLUS   -> "PLUS"
+  | MINUS   -> "MINUS"
+  | MUL   -> "MUL"
+  | DIV   -> "DIV"
   | EOF    -> "EOF"
+  | LEFT_PAR   -> "LEFT_PAR"
+  | RIGHT_PAR   -> "RIGHT_PAR"
 ;;
 
 (* print token t and return it *)

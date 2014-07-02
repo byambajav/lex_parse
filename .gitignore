@@ -3,5 +3,6 @@
 
 #Build folder, files
 2/_build/
+3/_build/
 *.top
 *.byte
