@@ -3,9 +3,14 @@ open Calc_parse
 (* token -> string *)
 let string_of_token t =
   match t with
-    NUM(s) -> Printf.sprintf "NUM(%d)" s
+    NUM(s) -> Printf.sprintf "NUM(%f)" s
   | PLUS   -> "PLUS"
+  | MINUS   -> "MINUS"
+  | MUL   -> "MUL"
+  | DIV   -> "DIV"
   | EOF    -> "EOF"
+  | LEFT_PAR   -> "LEFT_PAR"
+  | RIGHT_PAR   -> "RIGHT_PAR"
 ;;
 
 (* print token t and return it *)
@@ -46,7 +51,11 @@ open Calc_ast
 let rec eval_expr e = (* e は式の構文木 *)
   match e with
     Num(x) -> x
-  | Plus(x, y) -> eval_expr x + eval_expr y
+  | Par(x) -> eval_expr x
+  | Plus(x, y) -> eval_expr x +. eval_expr y
+  | Minus(x, y) -> eval_expr x -. eval_expr y
+  | Mul(x, y) -> eval_expr x *. eval_expr y
+  | Div(x, y) -> eval_expr x /. eval_expr y
 ;;
 
 let eval_string s = (* e は文字列 *)
