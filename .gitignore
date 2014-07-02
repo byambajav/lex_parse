@@ -1,2 +1,7 @@
- Emacs tmp files
+#Emacs tmp files
 *~
+
+#Build folder, files
+2/_build/
+*.top
+*.byte
