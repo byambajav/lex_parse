@@ -1,13 +1,22 @@
 {
 type token = 
   NUM of int
+| FLOAT of float
 | PLUS
 | EOF
 }
 
+
+let digit = ['0'-'9']
+let int = '-'? digit+
+let frac = '.' digit*
+let exp = ['e' 'E'] ['-' '+']? digit+
+let float = '-'? digit+ frac? exp?
+
 rule lex = parse
 | [ ' ' '\t' '\n' ]   { lex lexbuf }
-| [ '0' - '9' ]+ as s { NUM(int_of_string s) }
+| int as s { NUM(int_of_string s) }
+| float as s { FLOAT(float_of_string s) }
 | "+"                 { PLUS }
 | eof                 { EOF }
 
@@ -17,6 +26,7 @@ rule lex = parse
 let string_of_token t =
   match t with
     NUM(s) -> Printf.sprintf "NUM(%d)" s
+  | FLOAT(s) -> Printf.sprintf "FLOAT(%f)" s
   | PLUS -> "PLUS"
   | EOF -> "EOF"
 ;;
