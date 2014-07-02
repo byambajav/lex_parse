@@ -7,7 +7,7 @@
 %token EOF
 
 %start parse
-%type <float> parse
+%type <Calc_ast.expr> parse
 
 %%
 
