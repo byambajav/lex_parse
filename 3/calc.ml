@@ -11,6 +11,10 @@ let string_of_token t =
   | EOF    -> "EOF"
   | LEFT_PAR   -> "LEFT_PAR"
   | RIGHT_PAR   -> "RIGHT_PAR"
+  | VAR(s)   -> Printf.sprintf "VAR(%s)" s
+  | LET   -> "LET"
+  | EQUAL   -> "EQUAL"
+  | IN   -> "IN"
 ;;
 
 (* print token t and return it *)
@@ -45,19 +49,21 @@ let parse_string s =
     raise exn
 ;;
 
-
 open Calc_ast
   
-let rec eval_expr e = (* e は式の構文木 *)
+let rec eval_expr e env = (* e は式の構文木 *)
   match e with
     Num(x) -> x
-  | Par(x) -> eval_expr x
-  | Plus(x, y) -> eval_expr x +. eval_expr y
-  | Minus(x, y) -> eval_expr x -. eval_expr y
-  | Mul(x, y) -> eval_expr x *. eval_expr y
-  | Div(x, y) -> eval_expr x /. eval_expr y
+  | Var(x) -> List.assoc x env
+  | Par(x) -> eval_expr x env
+  | Plus(x, y) -> eval_expr x env +. eval_expr y env
+  | Minus(x, y) -> eval_expr x env -. eval_expr y env
+  | Mul(x, y) -> eval_expr x env *. eval_expr y env
+  | Div(x, y) -> eval_expr x env /. eval_expr y env
+  | Let(x, y, z) -> eval_expr z ((x, eval_expr y env)::env)
 ;;
 
 let eval_string s = (* e は文字列 *)
-  eval_expr (parse_string s)
+  let env = [] in
+  eval_expr (parse_string s) env
 ;;
