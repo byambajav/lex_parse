@@ -1,4 +1,4 @@
-open Calc_parse
+open If_parse
 
 (* token -> string *)
 let string_of_token t =
@@ -26,7 +26,7 @@ let print_token t =
 (* apply lexer to string s *)
 let lex_string s =
   let rec loop b = 
-    match print_token (Calc_lex.lex b) with
+    match print_token (If_lex.lex b) with
       EOF -> ()
     | _ -> loop b
   in
@@ -38,7 +38,7 @@ let lex_string s =
 let parse_string s = 
   let b = Lexing.from_string s in
   try
-    parse Calc_lex.lex b			(* main work *)
+    parse If_lex.lex b			(* main work *)
   with Parsing.Parse_error as exn ->
     (* handle parse error *)
     let c0 = Lexing.lexeme_start b in
@@ -49,7 +49,7 @@ let parse_string s =
     raise exn
 ;;
 
-open Calc_ast
+open If_ast
   
 let rec eval_expr e env = (* e は式の構文木 *)
   match e with

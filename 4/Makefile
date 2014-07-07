@@ -8,7 +8,7 @@
 # # My.test_lex ;;
 # - : string -> unit = <fun>
 
-prog:=calc
+prog:=if
 srcs:=$(prog)_ast.ml $(prog)_parse.mly $(prog)_lex.mll $(prog).ml
 cmos:=$(prog)_ast.cmo $(prog)_parse.cmo $(prog)_lex.cmo $(prog).cmo
 
