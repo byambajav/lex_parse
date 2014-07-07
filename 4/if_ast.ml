@@ -8,4 +8,11 @@ type expr =
 | Mul of expr * expr
 | Div of expr * expr
 | Let of string * expr * expr
+| If of expr * expr * expr
+| EqGreater of expr * expr
+| Greater of expr * expr
+| And of expr * expr
+| Or of expr * expr
+| True
+| False
 ;;

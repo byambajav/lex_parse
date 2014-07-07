@@ -15,6 +15,17 @@ let string_of_token t =
   | LET   -> "LET"
   | EQUAL   -> "EQUAL"
   | IN   -> "IN"
+  | IF   -> "IF"
+  | THEN   -> "THEN"
+  | ELSE   -> "ELSE"
+  | EQGREATER   -> "EQGREATER"
+  | EQLESS   -> "EQLESS"
+  | GREATER   -> "GREATER"
+  | LESS   -> "LESS"
+  | AND   -> "AND"
+  | OR   -> "OR"
+  | TRUE   -> "TRUE"
+  | FALSE   -> "FALSE"
 ;;
 
 (* print token t and return it *)
@@ -50,7 +61,8 @@ let parse_string s =
 ;;
 
 open If_ast
-  
+
+(* TODO: Define general expr type and combine following two functions *)
 let rec eval_expr e env = (* e は式の構文木 *)
   match e with
     Num(x) -> x
@@ -61,6 +73,16 @@ let rec eval_expr e env = (* e は式の構文木 *)
   | Mul(x, y) -> eval_expr x env *. eval_expr y env
   | Div(x, y) -> eval_expr x env /. eval_expr y env
   | Let(x, y, z) -> eval_expr z ((x, eval_expr y env)::env)
+  | If(x, y, z) -> if eval_bool_expr x env then eval_expr y env else eval_expr z env
+
+and eval_bool_expr e env = (* e は式の構文木 *)
+  match e with
+    True -> true
+  | False -> false
+  | EqGreater(x, y) -> eval_expr x env <= eval_expr y env
+  | Greater(x, y) -> eval_expr x env < eval_expr y env
+  | And(x, y) -> eval_bool_expr x env && eval_bool_expr y env
+  | Or(x, y) -> eval_bool_expr x env || eval_bool_expr y env
 ;;
 
 let eval_string s = (* e は文字列 *)
